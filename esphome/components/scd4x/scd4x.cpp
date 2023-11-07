@@ -148,6 +148,11 @@ void SCD4XComponent::update() {
     return;
   }
 
+  if (this->status_has_warning()) {
+    ESP_LOGD(TAG, "Retrying to reconnect the sensor.");
+    this->setup();
+  }
+
   if (this->ambient_pressure_source_ != nullptr) {
     float pressure = this->ambient_pressure_source_->state;
     if (!std::isnan(pressure)) {
